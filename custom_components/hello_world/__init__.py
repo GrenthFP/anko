@@ -1,14 +1,15 @@
 from homeassistant.core import HomeAssistant
+from homeassistant.config_entries import ConfigEntry
 from homeassistant.helpers import discovery
+from .const import DOMAIN
 
-DOMAIN = "hello_world"
 
-
-async def async_setup(hass: HomeAssistant, config: dict) -> bool:
+async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     hass.async_create_task(
-        discovery.async_load_platform(hass, "sensor", DOMAIN, {}, config)
+        discovery.async_load_platform(hass, "sensor", DOMAIN, {}, {})
     )
-    hass.async_create_task(
-        discovery.async_load_platform(hass, "switch", DOMAIN, {}, config)
-    )
+    return True
+
+
+async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     return True
